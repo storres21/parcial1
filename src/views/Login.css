@@ -1,0 +1,11 @@
+/* Estilo para el botón */
+.btn-custom {
+    background-color: #ccc; /* Color de fondo gris */
+    margin-top: 40px; /* Espacio superior */
+    margin-bottom: 10px; /* Espacio inferior */
+  }
+
+  h1 {
+    font-size: 46px; /* Tamaño de fuente más grande, ajusta según tus preferencias */
+    margin-bottom: 20px; /* Espacio inferior */
+  }
