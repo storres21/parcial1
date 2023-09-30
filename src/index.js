@@ -1,25 +1,26 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
+import { IntlProvider } from 'react-intl';
+import App from './App'; // Asegúrate de importar tu componente principal (App.js u otro nombre si es diferente).
+import esMessages from './locales/es'; // Importa las traducciones en español.
+import enMessages from './locales/en'; // Importa las traducciones en inglés.
 import './index.css';
-import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+const userLanguage = navigator.language || navigator.userLanguage;
+const messages = userLanguage.startsWith('es') ? esMessages : enMessages;
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+ReactDOM.render(
+  <IntlProvider locale={userLanguage} messages={messages}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </IntlProvider>,
+  document.getElementById('root')
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://cra.link/PWA
 serviceWorkerRegistration.unregister();
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

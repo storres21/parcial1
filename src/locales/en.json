@@ -1,0 +1,15 @@
+{
+    "Inicio de sesión": "logIn",
+    "Nombre de usuario": "Username",
+    "Contraseña": "Password",
+    "Error de autenticación. Revise sus credenciales": "Authentication error. Check your credentials",
+    "Ingresar": "Enter",
+    "Cancelar": "Cancel",
+    "Nombre": "Name",
+    "Tipo":"Type",
+    "Región":"Region",
+    "Notas":"Notes",
+    "Cultivado a una altura de":"Grown at an altitude of",
+    "msnm":"masl"
+
+}

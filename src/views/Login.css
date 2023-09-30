@@ -1,11 +1,130 @@
-/* Estilo para el botón */
-.btn-custom {
-    background-color: #ccc; /* Color de fondo gris */
-    margin-top: 40px; /* Espacio superior */
-    margin-bottom: 10px; /* Espacio inferior */
-  }
 
+.btn-custom-ingresar{
+  background-color: #3c6f3d; /* Color de fondo gris */
+  margin-top: 10px; /* Espacio superior */
+  margin-bottom: 10px; /* Espacio inferior */
+  border-radius: 1px;
+  margin-right: 25px;
+  width: 180px;
+  font-weight: bold;
+  font-size: 15px; 
+}
+
+.btn-custom-cancelar{
+  background-color: #ef2a2a; /* Color de fondo gris */
+  margin-top: 10px; /* Espacio superior */
+  margin-bottom: 10px; 
+  border-radius: 1px;
+  margin-left: 25px;
+  width: 180px;
+  font-weight: bold;
+  font-size: 15px; 
+}
   h1 {
     font-size: 46px; /* Tamaño de fuente más grande, ajusta según tus preferencias */
     margin-bottom: 20px; /* Espacio inferior */
+    text-align: left;
   }
+
+.labelInicio{
+  font-size: 13px;
+  font-weight: bold;
+  color: #000;
+  /* margin-bottom: ; */
+  text-align: left;
+}
+
+.labelTituloInicio{
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #000;
+  /* margin-bottom: ; */
+  text-align: left;
+
+}
+
+.labelError{
+
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #bf0303;
+  /* margin-bottom: ; */
+  text-align: left;
+
+}
+
+.cardlogin{
+  /* justify-content: center;  */
+  /* align-items: center; / */
+  padding-top: 12px;
+  padding-bottom: 20px;
+  padding-left: 90px;
+  padding-right: 90px;
+  background-color:rgb(248, 231, 225);
+  border-radius: 1px;
+  border: 1px solid black;
+}
+
+.card-detalle{
+  background-color:rgb(248, 231, 225);
+  border-radius: 1px;
+  border: 1px solid black;
+  width: 300px;
+}
+
+.carddiv{
+  /* display: flex;  */
+  /* justify-content: center; 
+  align-items: center;  */
+  width: 600px;
+  
+  
+}
+
+.inputsLogIn{
+  background-color: #cecccc;
+  border-radius: 1px;
+  padding-bottom: 8px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+ 
+}
+
+.linea {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  background-color: #c8c7c7; /* Color de la línea (negro en este caso) */
+  height: 2px; /* Altura de la línea (puedes ajustarla según tu diseño) */
+  width: 100%; /* Asegura que la línea ocupe todo el ancho del contenedor */
+}
+
+.custom-table th {
+  background-color: #000000; /* Cambia el color de fondo del encabezado */
+  color: #fff; /* Cambia el color del texto en el encabezado */
+  font-weight: bold; /* Añade negrita al texto del encabezado si es necesario */
+  text-align: left;
+  border-left: none; /* Elimina el borde izquierdo */
+  border-right: none; 
+}
+
+.custom-table td {
+  
+  text-align: left; /* Alinea el texto a la izquierda en las celdas del cuerpo */
+  border-top: 1px solid #ddd; /* Borde superior */
+  border-bottom: 1px solid #ddd; /* Borde inferior */
+  border-left: none; /* Elimina el borde izquierdo */
+  border-right: none;
+}
+
+.custom-table td.id {
+  font-weight: bold; /* Aplica negrita solo a las celdas de la columna ID */
+}
+
+.small-image {
+  max-width: 100%; /* Establece un ancho máximo para la imagen */
+  max-height: 100px; /* Establece una altura máxima para la imagen (ajusta esto según tus preferencias) */
+}
+

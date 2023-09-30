@@ -1,10 +1,20 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./Login.css";
 import React, { useState, useEffect } from "react";
+import { useIntl, FormattedMessage } from "react-intl";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col, Table } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import imagenLogIn from "./cafe.png";
+import esMessages from "../locales/es";
+import enMessages from "../locales/en";
+
 
 function Home() {
+  const intl = useIntl();
+  const userLanguage = navigator.language || navigator.userLanguage;
+
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
   const { id } = useParams();
@@ -16,7 +26,7 @@ function Home() {
       try {
         const response = await fetch("http://localhost:3001/cafes");
         if (!response.ok) {
-          throw new Error("Error al obtener los libros");
+          throw new Error(intl.formatMessage({ id: "errorFetchingBooks" })); // Traduce el mensaje de error
         }
         const data = await response.json();
         setBooks(data);
@@ -27,67 +37,97 @@ function Home() {
     };
 
     fetchData();
-  }, []);
+  }, [intl]); // Agrega intl como dependencia para que useEffect actualice según el idioma
 
-  useEffect(() => {
-    const fetchBookDetails = async () => {
-      if (id) {
-        console.log("Fetching book details for book with id:", id);
-        try {
-          const response = await fetch(`http://localhost:3001/cafes/${id}`);
-          console.log(response) 
-          if (!response.ok) {
-            throw new Error("Error al obtener los detalles del libro");
-          }
-          const data = await response.json();
-          setSelectedBook(data);
-          console.log("Book details:", data);
-        } catch (error) {
-          setError(error.message);
+  const [selectedBookImage, setSelectedBookImage] = useState(null);
+
+  const fetchBookDetails = async (id) => {
+    console.log(id);
+    if (id) {
+      console.log(intl.formatMessage({ id: "fetchingBookDetails" }, { id })); // Traduce el mensaje
+      try {
+        const peticion = "http://localhost:3001/cafes/" + id;
+        console.log(peticion);
+        const response = await fetch(peticion);
+        console.log(response) 
+        if (!response.ok) {
+          throw new Error(intl.formatMessage({ id: "errorFetchingDetails" })); // Traduce el mensaje de error
         }
+        const data = await response.json();
+        setSelectedBook(data);
+        setSelectedBookImage(data.imagen);
+        console.log("Book details:", data);
+      } catch (error) {
+        setError(error.message);
       }
-    };
-  
-    fetchBookDetails();
-  }, [id]); // Asegúrate de que este useEffect se ejecute cuando 'id' cambie.
+    }
+  };
 
   const renderEditableField = (label, value) => {
-    return (
-      <div>
-        <label>{label}:</label>
-        <p>{value}</p>
-      </div>
-    );
+    if (label === "nombre") {
+      const formattedValue = value.toUpperCase(); // Aplicar cambios solo al nombre
+      return (
+        <div>
+          <p><strong>{formattedValue}</strong></p>
+        </div>
+      );
+    } 
+    
+    else if (label === "Cultivado a una altura de") {
+      return (
+        <div>
+          <p><strong>{intl.formatMessage({ id: "Cultivado a una altura de" })}<br></br>{value} {intl.formatMessage({ id: "msnm" })}</strong></p>
+        </div>
+      );
+    } 
+    else if (label === "Notas") {
+      return (
+        <div>
+          <p>{intl.formatMessage({ id: "Notas" })} <br></br> {value}</p>
+        </div>
+      );
+    }
+    else {
+      return (
+        <div>
+          <p>{value}</p>
+        </div>
+      );
+    }
   };
 
   return (
-    <Container className="home-container">
+    <div className="container mt-5">
+      <h1>El aroma mágico</h1>
+        <div className="linea"></div>
+        <img
+          src={imagenLogIn}
+          alt={intl.formatMessage({ id: "loginImageAlt" })}
+          className="img-fluid"
+        />
+        <div className="linea"></div>
+    
+      <Container className="home-container">
       <Row>
-        <Col md={6}>
-        <h1>El aroma magico</h1>
-        {/* <div className="col-md-6"> */}
-          <img
-            src={imagenLogIn}
-            alt="Imagen de inicio de sesión"
-            className="img-fluid"
-          />
-          <Table striped bordered hover>
+        <Col md={8}>
+          
+          <Table striped bordered hover className="custom-table">
             <thead>
               <tr>
                 <th>#</th>
-                <th>Nombre</th>
-                <th>Tipo</th>
-                <th>Region</th>
+                <th>{intl.formatMessage({ id: "Nombre" })}</th>
+                <th>{intl.formatMessage({ id: "Tipo" })}</th>
+                <th>{intl.formatMessage({ id: "Región" })}</th>
               </tr>
             </thead>
             <tbody>
               {books.map((book) => (
                 <tr
                   key={book.id}
-                  onClick={() => setSelectedBook(book)}
+                  onClick={() => fetchBookDetails(book.id)} 
                   className={selectedBook && selectedBook.id === book.id ? "selected" : ""}
                 >
-                  <td>{book.id}</td>
+                  <td className="id">{book.id}</td>
                   <td>{book.nombre}</td>
                   <td>{book.tipo}</td>
                   <td>{book.region}</td>
@@ -96,22 +136,31 @@ function Home() {
             </tbody>
           </Table>
         </Col>
-        <Col md={6}>
+        <Col md={4}>
           {selectedBook && (
-            <div className="book-details">
-              
-              <div>
-                {renderEditableField('nombre: Café Especial para tí', selectedBook.nombre)}
-                {renderEditableField('fecha cultivo: 2023-01-18', selectedBook.fecha_cultivo)}
-                {renderEditableField('imagen: https://github.com/Uniandes-isis2603/recursos-isis2603/blob/master/images/202310/p2_v1/cafe-especial-para-ti-cafe-colombiano_720x.png?raw=true', selectedBook.imagen)}
-                {renderEditableField('notas: Panela, Durazno, Caramelo', selectedBook.notas)}
-                {renderEditableField('cultivado a una altura de: 1920 msnm ', selectedBook.altura)}
-              </div>
-            </div>
+            <Card className= "card-detalle mx-auto">
+
+            <Card.Body className >
+              {renderEditableField('nombre', selectedBook.nombre)}
+              {renderEditableField('Fecha de cultivo', selectedBook.fecha_cultivo)}
+              {selectedBookImage && (
+                <div>
+                  <img
+                    src={selectedBookImage}
+                    alt={selectedBook.nombre}
+                    className="img-fluid small-image"
+                  />
+                </div>
+              )}
+              {renderEditableField('Notas', selectedBook.notas)}
+              {renderEditableField('Cultivado a una altura de', selectedBook.altura)}
+            </Card.Body>
+          </Card>
           )}
         </Col>
       </Row>
     </Container>
+    </div>
   );
 }
 
