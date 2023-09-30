@@ -24,6 +24,7 @@
     font-size: 46px; /* Tamaño de fuente más grande, ajusta según tus preferencias */
     margin-bottom: 20px; /* Espacio inferior */
     text-align: left;
+    font-family:"Comic Sans MS", cursive;;
   }
 
 .labelInicio{

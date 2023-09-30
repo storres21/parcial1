@@ -1,32 +1,26 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Login.css";
 import React, { useState, useEffect } from "react";
-import { useIntl, FormattedMessage } from "react-intl";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col, Table } from "react-bootstrap";
 import { Card } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import imagenLogIn from "./cafe.png";
-import esMessages from "../locales/es";
-import enMessages from "../locales/en";
 
 
 function Home() {
-  const intl = useIntl();
-  const userLanguage = navigator.language || navigator.userLanguage;
-
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
   const { id } = useParams();
   const [error, setError] = useState(null);
-  const { state: { userRole } } = useLocation();
+  // const { state: { userRole } } = useLocation();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:3001/cafes");
         if (!response.ok) {
-          throw new Error(intl.formatMessage({ id: "errorFetchingBooks" })); // Traduce el mensaje de error
+          throw new Error("Error al obtener los libros");
         }
         const data = await response.json();
         setBooks(data);
@@ -37,21 +31,21 @@ function Home() {
     };
 
     fetchData();
-  }, [intl]); // Agrega intl como dependencia para que useEffect actualice según el idioma
+  }, []);
 
   const [selectedBookImage, setSelectedBookImage] = useState(null);
 
   const fetchBookDetails = async (id) => {
     console.log(id);
     if (id) {
-      console.log(intl.formatMessage({ id: "fetchingBookDetails" }, { id })); // Traduce el mensaje
+      console.log("Fetching book details for book with id:", id);
       try {
         const peticion = "http://localhost:3001/cafes/" + id;
         console.log(peticion);
         const response = await fetch(peticion);
         console.log(response) 
         if (!response.ok) {
-          throw new Error(intl.formatMessage({ id: "errorFetchingDetails" })); // Traduce el mensaje de error
+          throw new Error("Error al obtener los detalles del libro");
         }
         const data = await response.json();
         setSelectedBook(data);
@@ -73,17 +67,17 @@ function Home() {
       );
     } 
     
-    else if (label === "Cultivado a una altura de") {
+    else if (label === "Cultivado a una altura de") { // Aplicar cambios solo al nombre
       return (
         <div>
-          <p><strong>{intl.formatMessage({ id: "Cultivado a una altura de" })}<br></br>{value} {intl.formatMessage({ id: "msnm" })}</strong></p>
+          <p><strong>{label}<br></br>{value} msnm </strong></p>
         </div>
       );
     } 
-    else if (label === "Notas") {
+    else if (label === "Notas") { // Aplicar cambios solo al nombre
       return (
         <div>
-          <p>{intl.formatMessage({ id: "Notas" })} <br></br> {value}</p>
+          <p>{label} <br></br> {value}</p>
         </div>
       );
     }
@@ -102,7 +96,7 @@ function Home() {
         <div className="linea"></div>
         <img
           src={imagenLogIn}
-          alt={intl.formatMessage({ id: "loginImageAlt" })}
+          alt="Imagen de inicio de sesión"
           className="img-fluid"
         />
         <div className="linea"></div>
@@ -115,9 +109,9 @@ function Home() {
             <thead>
               <tr>
                 <th>#</th>
-                <th>{intl.formatMessage({ id: "Nombre" })}</th>
-                <th>{intl.formatMessage({ id: "Tipo" })}</th>
-                <th>{intl.formatMessage({ id: "Región" })}</th>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Región</th>
               </tr>
             </thead>
             <tbody>
@@ -138,9 +132,9 @@ function Home() {
         </Col>
         <Col md={4}>
           {selectedBook && (
-            <Card className= "card-detalle mx-auto">
+            <Card className= "card-detalle">
 
-            <Card.Body className >
+            <Card.Body className= "card-detalle">
               {renderEditableField('nombre', selectedBook.nombre)}
               {renderEditableField('Fecha de cultivo', selectedBook.fecha_cultivo)}
               {selectedBookImage && (

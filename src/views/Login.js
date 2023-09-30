@@ -5,7 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { FormattedMessage, useIntl } from "react-intl";
 import imagenLogIn from "./cafe.png";
 
-function Login() {
+
+
+function Login({setIsLoggedIn}) {
+
   const navigate = useNavigate();
   const intl = useIntl();
   const [formData, setFormData] = useState({ id: 1, email: "", password: "" });
@@ -61,7 +64,8 @@ function Login() {
     const data = await response.json();
     if (data && data.role !== undefined) {
       // Si el inicio de sesión es exitoso y 'role' está definido en el primer elemento de 'data'
-      navigate("/Home", { state: { userRole: data.role } });
+      setIsLoggedIn(true);
+      navigate("/Home");
     } else {
       setError("No se pudo obtener el rol del usuario");
     }

@@ -1,6 +1,5 @@
-// app.js
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; 
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Home from './views/Home';
 import Login from './views/Login';
 import './App.css';
@@ -13,12 +12,31 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          {/* Ruta de inicio de sesión */}
+          {/* Ruta principal */}
           <Route
             path="/"
-            element={isLoggedIn ? <Home /> : <Login setIsLoggedIn={setIsLoggedIn} />}
+            element={
+              isLoggedIn ? (
+                <Navigate to="/Home" />
+              ) : (
+                <Login setIsLoggedIn={setIsLoggedIn} />
+              )
+            }
           />
-          <Route path="/Home" element={<Home />} />
+
+          {/* Ruta para el componente Home */}
+          <Route
+            path="/Home"
+            element={
+              isLoggedIn ? (
+                <Home />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+
+          {/* Otras rutas (si las tienes) */}
           <Route path="/book/:bookModel" element={<BookDetail />} />
         </Routes>
       </div>
