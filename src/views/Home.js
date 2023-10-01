@@ -6,6 +6,7 @@ import { Container, Row, Col, Table } from "react-bootstrap";
 import { Card } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import imagenLogIn from "./cafe.png";
+import { FormattedMessage, useIntl } from "react-intl";
 
 
 function Home() {
@@ -13,6 +14,7 @@ function Home() {
   const [selectedBook, setSelectedBook] = useState(null);
   const { id } = useParams();
   const [error, setError] = useState(null);
+  const intl = useIntl();
   // const { state: { userRole } } = useLocation();
 
   useEffect(() => {
@@ -70,14 +72,14 @@ function Home() {
     else if (label === "Cultivado a una altura de") { // Aplicar cambios solo al nombre
       return (
         <div>
-          <p><strong>{label}<br></br>{value} msnm </strong></p>
+          <p><strong>{intl.formatMessage({ id: "Cultivado a una altura de" })}<br></br>{value} {intl.formatMessage({ id: "msnm" })}</strong></p>
         </div>
       );
     } 
     else if (label === "Notas") { // Aplicar cambios solo al nombre
       return (
         <div>
-          <p>{label} <br></br> {value}</p>
+          <p>{intl.formatMessage({ id: "Notas" })} <br></br> {value}</p>
         </div>
       );
     }
@@ -109,9 +111,9 @@ function Home() {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Nombre</th>
-                <th>Tipo</th>
-                <th>Región</th>
+                <th>{intl.formatMessage({ id: "Nombre" })}</th>
+                <th>{intl.formatMessage({ id: "Tipo" })}</th>
+                <th>{intl.formatMessage({ id: "Región" })}</th>
               </tr>
             </thead>
             <tbody>
